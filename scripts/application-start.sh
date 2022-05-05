@@ -2,4 +2,4 @@
 
 cd /var/www/app
 
-service proxysql reload
+service proxysql restart
