@@ -2,4 +2,4 @@
 
 cd /var/www/app
 
-cp config/proxysql.cfg /etc/proxysql.cfg
+cp config/proxysql.cnf /etc/proxysql.cnf
