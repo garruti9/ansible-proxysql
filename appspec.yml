@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /
+    destination: /var/www/app
 hooks:
 #  There's no need to stop the application since we can hot reload the configuration.
 #  ApplicationStop:
