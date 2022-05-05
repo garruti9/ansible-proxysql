@@ -3,6 +3,14 @@ os: linux
 files:
   - source: /
     destination: /var/www/app
+permissions:
+  - object: /var/www/app
+    pattern: "*.sh"
+    owner: root
+    group: root
+    mode: 775
+    type:
+      - file
 hooks:
 #  There's no need to stop the application since we can hot reload the configuration.
 #  ApplicationStop:
