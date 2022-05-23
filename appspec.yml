@@ -12,6 +12,8 @@ permissions:
     type:
       - file
 hooks:
+  BeforeInstall:
+    - location: scripts/before-install.sh
 #  There's no need to stop the application since we can hot reload the configuration.
 #  ApplicationStop:
 #    - location: scripts/application-stop.sh
