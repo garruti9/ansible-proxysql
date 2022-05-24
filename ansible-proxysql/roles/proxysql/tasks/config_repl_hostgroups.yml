@@ -1,0 +1,11 @@
+---
+- name: proxysql | Add a replication hostgroup
+  proxysql_replication_hostgroups:
+    login_user: "{{ proxysql_admin_user }}"
+    login_password: "{{ proxysql_admin_password }}"
+    writer_hostgroup: "{{ proxysql_writer_hostgroup_id }}"
+    reader_hostgroup:  "{{ proxysql_reader_hostgroup_id }}"
+    check_type: innodb_read_only
+    state: present
+    load_to_runtime: True
+    save_to_disk: True
