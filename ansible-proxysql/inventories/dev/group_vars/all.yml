@@ -187,6 +187,5 @@ database_password: "{{ lookup('amazon.aws.aws_secret', 'dev/dev-db/read/password
 proxysql_rule_pattern_select_readers: '^SELECT.*'
 proxysql_rule_pattern_select_for_update_writer: '^SELECT.*FOR UPDATE'
 
-read_only_check_type: 'innodb_read_only'
 galaxy_dir: /usr/local/etc/ansible/ansible-galaxy
 
