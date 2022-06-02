@@ -372,4 +372,7 @@ proxysql_mysql_options:
     variable_value: "{{ proxysql_mysql_threads }}"
   mysql_stacksize:
     variable: "stacksize"
-    variable_value: "{{ proxysql_mysql_stacksize }}"  
+    variable_value: "{{ proxysql_mysql_stacksize }}" 
+  mysql_interfaces:
+    variable: "interfaces"
+    variable_value: "{{ proxysql_mysql_bind_address }}:{{ proxysql_mysql_port }};{{ proxysql_mysql_socket }}"

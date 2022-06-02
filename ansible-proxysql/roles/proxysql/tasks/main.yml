@@ -26,6 +26,9 @@
 - name: Configure Users for proxysql
   import_tasks: config_users.yml
 
+- name: Configure Replication hostgroups for proxysql
+  import_tasks: config_repl_hostgroups.yml
+
 - name: Configure query rules for proxysql
   import_tasks: config_add_rules.yml
 
