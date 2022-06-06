@@ -18,8 +18,8 @@
     - config
 
 - name: Install AWS git 
-  include_tasks: config_repl_hostgroups.yml
-
+  include_tasks: install_ansible_galaxy_aws.yml
+  
 - name: Configure Users for proxysql
   import_tasks: config_servers.yml
 

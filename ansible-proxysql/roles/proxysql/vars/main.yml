@@ -22,6 +22,7 @@ proxysql_python_packages:
   - pymysql
   - boto3
   - botocore
+  - awscli
 
 proxysql_admin_variables:
   admin_credentials:
@@ -266,9 +267,6 @@ proxysql_mysql_variables:
   multiplexing:
     variable: "multiplexing"
     variable_value: "{{ proxysql_mysql_multiplexing | to_json }}"
-  mysql_interfaces:
-    variable: "interfaces"
-    variable_value: "{{ proxysql_mysql_bind_address }}:{{ proxysql_mysql_port }};{{ proxysql_mysql_socket }}"
   ping_interval_server_msec:
     variable: "ping_interval_server_msec"
     variable_value: "{{ proxysql_mysql_ping_interval_server_msec }}"
@@ -373,3 +371,6 @@ proxysql_mysql_options:
   mysql_stacksize:
     variable: "stacksize"
     variable_value: "{{ proxysql_mysql_stacksize }}"  
+  mysql_interfaces:
+    variable: "interfaces"
+    variable_value: "{{ proxysql_mysql_bind_address }}:{{ proxysql_mysql_port }};{{ proxysql_mysql_socket }}"

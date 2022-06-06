@@ -180,12 +180,10 @@ proxysql_reader_hostgroup_id: 11
 aurora_domain_name:
 
 aws_region: us-east-1
+galaxy_dir: /usr/local/etc/ansible/ansible-galaxy
 
-database_username: "{{ lookup('amazon.aws.aws_secret', 'dev/dev-db/read/username', region= {{ aws_region }}) }}"
-database_password: "{{ lookup('amazon.aws.aws_secret', 'dev/dev-db/read/password', region= {{ aws_region }}) }}" 
+database_username: "{{ lookup('amazon.aws.aws_secret', '/dev/path/password.username', region= 'us-east-1', nested=true) }}"
+database_password: "{{ lookup('amazon.aws.aws_secret', '/dev/path/password.password', region= 'us-east-1', nested=true) }}"
 
 proxysql_rule_pattern_select_readers: '^SELECT.*'
 proxysql_rule_pattern_select_for_update_writer: '^SELECT.*FOR UPDATE'
-
-galaxy_dir: /usr/local/etc/ansible/ansible-galaxy
-
