@@ -7,7 +7,6 @@ Role Variables
 --------------
 
 The interface to variables in this role should only be via `inventories/{env}/group_vars/all.yml`, and it shouldn't be necessary to override the role vars.
-By default, the role 
 
 Example Playbook
 ----------------
@@ -24,7 +23,7 @@ Example Playbook
 Example Playbook execution
 --------------------------
 ```
-ansible-playbook proxysql.yml -i inventories/dev/hosts
+ansible-playbook proxysql.yml -i inventories/{env}/hosts
 ```
 
 

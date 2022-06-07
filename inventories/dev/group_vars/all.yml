@@ -168,22 +168,22 @@ proxysql_mysql_stats_time_query_processor: false
 proxysql_mysql_verbose_query_error: false
 
 #Config database servers in ProxySQL
-proxysql_database_writer_hostname:
+proxysql_database_writer_hostname: "{{ lookup('env','WRITER_HOSTNAME') }}"
 proxysql_database_writer_hostgroup_status: ONLINE
 proxysql_database_writer_state: present
 proxysql_writer_hostgroup_id: 10
 
-proxysql_database_reader_hostname:
+proxysql_database_reader_hostname: "{{ lookup('env','READER_HOSTNAME') }}"
 proxysql_database_reader_hostgroup_status: ONLINE
 proxysql_database_reader_state: present
 proxysql_reader_hostgroup_id: 11
-aurora_domain_name:
+aurora_domain_name: "{{ lookup('env','RDS_DOMAIN_NAME') }}" 
 
 aws_region: us-east-1
 galaxy_dir: /usr/local/etc/ansible/ansible-galaxy
 
-database_username: "{{ lookup('amazon.aws.aws_secret', '/dev/path/password.username', region= 'us-east-1', nested=true) }}"
-database_password: "{{ lookup('amazon.aws.aws_secret', '/dev/path/password.password', region= 'us-east-1', nested=true) }}"
+database_username: "{{ lookup('amazon.aws.aws_secret', lookup('env','aws_secrets_path') + '.username' , region= 'us-east-1', nested=true) }}"
+database_password: "{{ lookup('amazon.aws.aws_secret', lookup('env','aws_secrets_path') + '.password' , region= 'us-east-1', nested=true) }}"
 
 proxysql_rule_pattern_select_readers: '^SELECT.*'
 proxysql_rule_pattern_select_for_update_writer: '^SELECT.*FOR UPDATE'
