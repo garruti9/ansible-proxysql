@@ -1,0 +1,3 @@
+---
+- name: proxysql | syncusers from MySQL master instance to ProxySQL
+  command: proxysql-admin --syncusers --server="{{ proxysql_database_writer_hostname }}:{{ proxysql_mysql_port }}" --cluster-username="{{ database_username }}" --cluster-password="{{ database_password }}"
