@@ -1,0 +1,6 @@
+---
+- hosts: all
+  gather_facts: True
+  remote_user: root
+  roles:
+    - manage_proxysql
