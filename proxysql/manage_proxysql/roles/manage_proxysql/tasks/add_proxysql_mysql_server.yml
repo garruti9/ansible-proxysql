@@ -1,0 +1,14 @@
+- name: Add mysql server
+  proxysql_backend_servers:
+    login_user:  "{{ proxysql_admin_user }}" 
+    login_password: "{{ proxysql_admin_user }}" 
+    hostgroup_id: 10
+    hostname: "{{ dbserver }}"
+    port: "{{ mysql_port }}"
+    compression: 1
+    max_connections: "{{ max_connections }}"
+    state: present
+    load_to_runtime: True
+    save_to_disk: True
+  tags:
+  - add_proxysql_mysql_server

@@ -1,0 +1,2 @@
+[stg]
+localhost  ansible_connection=local

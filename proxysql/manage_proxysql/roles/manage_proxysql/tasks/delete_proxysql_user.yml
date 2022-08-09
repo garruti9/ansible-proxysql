@@ -1,0 +1,10 @@
+- name: Delete ProxySQL user
+  proxysql_mysql_users:
+    login_user:  "{{ proxysql_admin_user }}" 
+    login_password: "{{ proxysql_admin_user }}" 
+    username: "{{ username_to_delete }}"   
+    state: absent
+    load_to_runtime: yes
+    save_to_disk: yes
+  tags:
+  - delete_proxysql_user

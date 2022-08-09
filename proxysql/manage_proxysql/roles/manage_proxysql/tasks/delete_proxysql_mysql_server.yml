@@ -1,0 +1,14 @@
+- name: Delete mysql old server
+  proxysql_backend_servers:
+    login_user:  "{{ proxysql_admin_user }}" 
+    login_password: "{{ proxysql_admin_user }}" 
+    hostgroup_id: 10
+    hostname: "{{ olddbserver }}"
+    port: "{{ mysql_port }}"
+    compression: 1
+    max_connections: "{{ max_connections }}"
+    state: absent
+    load_to_runtime: True
+    save_to_disk: True
+  tags:
+  - delete_proxysql_mysql_server
