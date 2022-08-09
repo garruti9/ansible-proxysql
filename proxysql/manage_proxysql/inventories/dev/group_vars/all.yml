@@ -1,6 +1,0 @@
----
-### admin variables
-proxysql_admin_user: admin
-proxysql_admin_password: admin
-proxysql_admin_port: 6032
-proxysql_admin_socket: /tmp/proxysql_admin.sock
