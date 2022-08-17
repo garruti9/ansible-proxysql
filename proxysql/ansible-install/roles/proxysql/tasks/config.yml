@@ -3,7 +3,7 @@
   template:
     src: client.my.cnf.j2
     dest: ~/.my.cnf
-    mode: 0600
+    mode: 0644
 
 - name: proxysql | config | copy proxysql config
   template:
@@ -36,4 +36,15 @@
     port: "{{ proxysql_admin_port }}"
     state: started
     timeout: 30
-    
+
+- name: proxysql | config | copy delete_autoscaling_servers.sh file
+  template:
+    src: delete_autoscaling_servers.sh.j2
+    dest: "{{ proxysql_datadir }}/delete_autoscaling_servers.sh"
+    mode: 0755
+
+- name: proxysql | config | copy update_autoscaling_servers.sh file
+  template:
+    src: update_autoscaling_servers.sh.j2
+    dest: "{{ proxysql_datadir }}/update_autoscaling_servers.sh"
+    mode: 0755

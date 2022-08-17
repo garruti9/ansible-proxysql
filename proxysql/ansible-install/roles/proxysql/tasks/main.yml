@@ -17,20 +17,26 @@
   tags:
     - config
 
+#- name: Configure cron
+#  import_tasks: config_cron.yml
+
 - name: Install AWS git 
   include_tasks: install_ansible_galaxy_aws.yml
-  
-- name: Configure Users for proxysql
+
+- name: Configure Servers for proxysql
   import_tasks: config_servers.yml
 
-- name: Configure Users for proxysql
-  import_tasks: config_users.yml
+#- name: Config scheduler
+#  import_tasks: config_scheduler.yml
 
-- name: Configure query rules for proxysql
-  import_tasks: config_add_rules.yml
+#- name: Configure query rules for proxysql
+#  import_tasks: config_add_rules.yml
 
 - name: Configure Aurora hostgroups for proxysql
   import_tasks: config_aurora_hostgroups.yml
+
+- name: Configure Users for proxysql
+  import_tasks: config_users.yml
 
   become: true
   become_user: root

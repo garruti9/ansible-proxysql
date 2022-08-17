@@ -1,7 +1,7 @@
 ---
 ### proxysql install
 proxysql_download_src: https://www.percona.com/downloads/proxysql2/
-proxysql_version: 2.3.2
+proxysql_version: 2.4.2
 proxysql_mysql_client_version: 5.7
 proxysql_mysql_use_custom_build: false
 proxysql_force_restart: true
@@ -68,7 +68,7 @@ proxysql_mysql_connection_max_age_ms: 0
 proxysql_mysql_connpoll_reset_queue_length: 50
 proxysql_mysql_default_max_latency_ms: 1000
 proxysql_mysql_free_connections_pct: 10
-proxysql_mysql_max_connections: 5000
+proxysql_mysql_max_connections: 6000
 proxysql_mysql_multiplexing: true
 proxysql_mysql_ping_interval_server_msec: 120000
 proxysql_mysql_ping_timeout_server: 500
@@ -77,7 +77,7 @@ proxysql_mysql_poll_timeout_on_failure: 100
 proxysql_mysql_session_idle_ms: 1000
 proxysql_mysql_session_idle_show_processlist: true
 proxysql_mysql_sessions_sort: true
-proxysql_mysql_shun_on_failures: 5
+proxysql_mysql_shun_on_failures: 2
 proxysql_mysql_shun_recovery_time_sec: 10
 proxysql_mysql_stacksize: 1048576
 proxysql_mysql_threads: 4
@@ -88,18 +88,17 @@ proxysql_mysql_throttle_max_bytes_per_second_to_client: 2147483647
 proxysql_mysql_throttle_ratio_server_to_client: 0
 
 # session
-proxysql_mysql_client_found_rows: true
 proxysql_mysql_default_charset: utf8
 proxysql_mysql_default_query_delay: 0
 proxysql_mysql_default_query_timeout: 36000000
-proxysql_mysql_default_schema: information_schema
+proxysql_mysql_default_schema: mydb
 proxysql_mysql_init_connect:
 proxysql_mysql_max_allowed_packet: 4194304
-proxysql_mysql_max_transaction_time: 14400000
+proxysql_mysql_max_transaction_time: 86400000
 proxysql_mysql_query_retries_on_failure: 1
 proxysql_mysql_server_capabilities: 45578
 proxysql_mysql_server_version: 5.7.21
-proxysql_mysql_mysql_wait_timeout: 28800000
+proxysql_mysql_mysql_wait_timeout: 57600000
 proxysql_mysql_kill_backend_connection_when_disconnect: true
 
 # ssl
@@ -113,7 +112,7 @@ proxysql_mysql_query_processor_iterations: 0
 proxysql_mysql_query_processor_regex: 1
 
 # autocommit
-proxysql_mysql_autocommit_false_is_transaction: false
+proxysql_mysql_autocommit_false_is_transaction: true
 proxysql_mysql_autocommit_false_not_reusable: false
 proxysql_mysql_enforce_autocommit_on_reads: false
 
@@ -133,7 +132,7 @@ proxysql_mysql_monitor_username: monitor
 proxysql_mysql_monitor_password: monitor
 
 proxysql_mysql_monitor_connect_interval: 60000
-proxysql_mysql_monitor_connect_timeout: 600
+proxysql_mysql_monitor_connect_timeout: 1200
 proxysql_mysql_monitor_enabled: true
 proxysql_mysql_monitor_groupreplication_healthcheck_interval: 5000
 proxysql_mysql_monitor_groupreplication_healthcheck_timeout: 800
@@ -145,13 +144,13 @@ proxysql_mysql_monitor_query_interval: 60000
 proxysql_mysql_monitor_query_timeout: 100
 proxysql_mysql_monitor_read_only_interval: 1500
 proxysql_mysql_monitor_read_only_max_timeout_count: 3
-proxysql_mysql_monitor_read_only_timeout: 500
+proxysql_mysql_monitor_read_only_timeout: 1000
 proxysql_mysql_monitor_replication_lag_interval: 10000
 proxysql_mysql_monitor_replication_lag_timeout: 1000
 proxysql_mysql_monitor_replication_lag_use_percona_heartbeat:
 proxysql_mysql_monitor_slave_lag_when_null: 60
 proxysql_mysql_monitor_wait_timeout: true
-proxysql_mysql_monitor_writer_is_also_reader: true
+proxysql_mysql_monitor_writer_is_also_reader: false
 
 # stats and logging
 proxysql_mysql_commands_stats: true
@@ -168,25 +167,23 @@ proxysql_mysql_stats_time_query_processor: false
 proxysql_mysql_verbose_query_error: false
 
 #Config database servers in ProxySQL
-proxysql_database_writer_hostname:
+proxysql_database_writer_hostname: "{{ lookup('env','WRITER_HOSTNAME') }}"
 proxysql_database_writer_hostgroup_status: ONLINE
 proxysql_database_writer_state: present
 proxysql_writer_hostgroup_id: 10
 
-proxysql_database_reader_hostname:
+proxysql_port: 6032
+proxysql_database_reader_hostname: "{{ lookup('env','READER_HOSTNAME') }}"
 proxysql_database_reader_hostgroup_status: ONLINE
 proxysql_database_reader_state: present
 proxysql_reader_hostgroup_id: 11
-aurora_domain_name:
+aurora_domain_name: "{{ lookup('env','RDS_DOMAIN_NAME') }}"
 
 aws_region: us-east-1
+galaxy_dir: /usr/local/etc/ansible/ansible-galaxy
 
-database_username: "{{ lookup('amazon.aws.aws_secret', 'dev/dev-db/read/username', region= {{ aws_region }}) }}"
-database_password: "{{ lookup('amazon.aws.aws_secret', 'dev/dev-db/read/password', region= {{ aws_region }}) }}" 
+database_username: "{{ lookup('amazon.aws.aws_secret', lookup('env','AWS_SECRETS_PATH') + '.username' , region= 'us-east-1', nested=true) }}"
+database_password: "{{ lookup('amazon.aws.aws_secret', lookup('env','AWS_SECRETS_PATH') + '.password' , region= 'us-east-1', nested=true) }}"
 
 proxysql_rule_pattern_select_readers: '^SELECT.*'
 proxysql_rule_pattern_select_for_update_writer: '^SELECT.*FOR UPDATE'
-
-read_only_check_type: 'innodb_read_only'
-galaxy_dir: /usr/local/etc/ansible/ansible-galaxy
-

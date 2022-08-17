@@ -1,0 +1,28 @@
+#!/bin/bash
+#
+# Change status for autoscaling instances - save runtime servers to mysql - change status to OFFLINE_SOFT
+
+MYSQL="mysql -N --batch"
+MYSQL_COUNT_AUTOSCALING=$(echo "SELECT hostname FROM runtime_mysql_servers WHERE hostname like 'application-autoscaling-%';" | $MYSQL | wc -l)
+MYSQL_COUNT_OFFLINE_SOFT=$(echo "SELECT hostname FROM mysql_servers WHERE hostname like 'application-autoscaling-%' and STATUS='OFFLINE_SOFT';" | $MYSQL | wc -l)
+COUNT_MYSQL_RUNTIME_SERVERS=$(echo "SELECT hostname from runtime_mysql_servers" | $MYSQL | wc -l)
+COUNT_MYSQL_SERVERS=$(echo "SELECT hostname from mysql_servers" | $MYSQL | wc -l)
+
+
+if [[ $COUNT_MYSQL_RUNTIME_SERVERS > $COUNT_MYSQL_SERVERS ]]; then
+	echo "Executing SAVE MYSQL SERVERS FROM RUNTIME;"
+	echo "SAVE MYSQL SERVERS FROM RUNTIME;" | $MYSQL
+fi
+
+if [[ $MYSQL_COUNT_OFFLINE_SOFT > 0 ]]; then
+	echo " $MYSQL_COUNT_OFFLINE_SOFT in OFFLINE_SOFT status - deleting "
+	echo "DELETE FROM mysql_servers WHERE STATUS='OFFLINE_SOFT';LOAD MYSQL SERVERS TO RUNTIME; SAVE MYSQL SERVERS TO DISK;"  | $MYSQL
+fi
+
+if [[ $MYSQL_COUNT_AUTOSCALING > 0 ]]; then
+$MYSQL -N -e "SELECT hostname FROM runtime_mysql_servers WHERE hostname like 'application-autoscaling-%' and hostgroup_id=11" | while IFS= read -r loop;
+do
+	echo "Changing to OFFLINE_SOFT $loop"
+	echo "UPDATE mysql_servers SET STATUS='OFFLINE_SOFT' WHERE hostname='$loop';LOAD MYSQL SERVERS TO RUNTIME; SAVE MYSQL SERVERS TO DISK;" | $MYSQL
+done
+fi

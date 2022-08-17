@@ -1,0 +1,17 @@
+- name: Schedule change status unused autoscaling servers | exec per second
+  proxysql_scheduler:
+    login_user: "{{ proxysql_admin_user }}"
+    login_password: "{{ proxysql_admin_password }}"
+    interval_ms: 1800000
+    filename: "/var/lib/proxysql/update_autoscaling_servers.sh"
+    state: present
+    load_to_runtime: True
+
+- name: Schedule remove unused autoscaling servers | exec per day
+  proxysql_scheduler:
+    login_user: "{{ proxysql_admin_user }}"
+    login_password: "{{ proxysql_admin_password }}"
+    interval_ms: 21600000
+    filename: "/var/lib/proxysql/delete_autoscaling_servers.sh"
+    state: present
+    load_to_runtime: True

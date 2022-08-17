@@ -11,7 +11,7 @@ proxysql_prereqs:
   - python3-virtualenv
 
 ### proxysql required packages
-proxysql_release: "https://downloads.percona.com/downloads/proxysql2/proxysql2-2.3.2/binary/debian/focal/x86_64/proxysql2_2.3.2-1.1.focal_amd64.deb"
+proxysql_release: "https://downloads.percona.com/downloads/proxysql2/proxysql2-2.4.2/binary/debian/focal/x86_64/proxysql2_2.4.2-1.1.focal_amd64.deb"
 
 proxysql_additional_packages:
   - percona-server-client-{{ proxysql_mysql_client_version }}
@@ -22,7 +22,6 @@ proxysql_python_packages:
   - pymysql
   - boto3
   - botocore
-  - awscli
 
 proxysql_admin_variables:
   admin_credentials:
@@ -111,9 +110,6 @@ proxysql_mysql_variables:
   autocommit_false_not_reusable:
     variable: "autocommit_false_not_reusable"
     variable_value: "{{ proxysql_mysql_autocommit_false_not_reusable | to_json }}"
-  client_found_rows:
-    variable: "client_found_rows"
-    variable_value: "{{ proxysql_mysql_client_found_rows | to_json }}"
   commands_stats:
     variable: "commands_stats"
     variable_value: "{{ proxysql_mysql_commands_stats | to_json }}"

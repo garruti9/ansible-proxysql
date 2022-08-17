@@ -5,10 +5,11 @@
     login_password: "{{ proxysql_admin_password }}"
     hostname: "{{ proxysql_database_writer_hostname }}"
     state: "{{ proxysql_database_writer_state }}"
-    load_to_runtime: true
-    save_to_disk: True
     status: "{{ proxysql_database_writer_hostgroup_status }}" 
     hostgroup_id: "{{ proxysql_writer_hostgroup_id }}" 
+    max_connections: 6000
+    load_to_runtime: true
+    save_to_disk: True
 
 - name: proxysql | config reader server
   proxysql_backend_servers:
@@ -16,7 +17,8 @@
     login_password: "{{ proxysql_admin_password }}"
     hostname: "{{ proxysql_database_reader_hostname }}"
     state: "{{ proxysql_database_reader_state }}"
-    load_to_runtime: true
-    save_to_disk: True
     status: "{{ proxysql_database_reader_hostgroup_status }}" 
     hostgroup_id: "{{ proxysql_reader_hostgroup_id }}" 
+    max_connections: 6000
+    load_to_runtime: true
+    save_to_disk: True

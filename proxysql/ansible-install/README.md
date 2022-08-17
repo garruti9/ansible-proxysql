@@ -25,5 +25,3 @@ Example Playbook execution
 ```
 ansible-playbook proxysql.yml -i inventories/{env}/hosts
 ```
-
-

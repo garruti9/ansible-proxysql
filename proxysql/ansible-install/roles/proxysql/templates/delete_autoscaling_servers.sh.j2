@@ -1,0 +1,16 @@
+#!/bin/bash
+#
+# Delete autoscaling instances from ProxySQL and AWS 
+MYSQL="mysql -N --batch"
+COUNT_OFFLINE_SOFT=$(echo "SELECT hostname FROM mysql_servers WHERE status='OFFLINE_SOFT';" | $MYSQL | wc -l)
+
+if [[ $COUNT_OFFLINE_SOFT > 0 ]]; then
+$MYSQL -N -e "select hostname FROM mysql_servers WHERE hostname like 'application-autoscaling-%' and hostgroup_id=11" | while IFS= read -r loop;
+do
+    if [[ $(echo "select cpu from mysql_server_aws_aurora_log where hostname='$loop' and cpu!=0 order by LAST_UPDATE_TIMESTAMP desc limit 1" | $MYSQL) < 50 ]] && [[ $(echo "select ConnUsed from stats_mysql_connection_pool where srv_host='$loop'" | $MYSQL) == 0 ]]; then
+    instance_name="$(echo $loop | sed 's/.\{41\}$//')"
+    echo "Deleting RDS instance $loop"
+    aws rds delete-db-instance --db-instance-identifier $instance_name
+fi
+done
+fi

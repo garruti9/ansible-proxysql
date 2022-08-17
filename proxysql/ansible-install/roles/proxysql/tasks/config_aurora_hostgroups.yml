@@ -1,0 +1,4 @@
+---
+- name: proxysql | Add data in mysql_aws_aurora_hostgroups
+  command: mysql --socket="{{ proxysql_admin_socket }}" --host="{{ proxysql_admin_bind_address }}" --port="{{ proxysql_port }}" --user="{{ proxysql_admin_user }}" --password="{{ proxysql_admin_password }}" -e 'INSERT INTO mysql_aws_aurora_hostgroups (writer_hostgroup, reader_hostgroup, domain_name) VALUES ("{{ proxysql_writer_hostgroup_id }}", "{{ proxysql_reader_hostgroup_id }}","{{ aurora_domain_name }}"); LOAD MYSQL SERVERS TO RUNTIME;SAVE MYSQL SERVERS TO DISK;'
+  ignore_errors: yes

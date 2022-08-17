@@ -1,0 +1,19 @@
+- name: Creates a cron file | Update autoscaling servers to OFFLINE_SOFT
+  cron:
+    name: Update autoscaling servers to OFFLINE_SOFT
+    weekday: "*"
+    minute: "0"
+    hour: "0"
+    user: root
+    job: "/var/lib/proxysql/update_autoscaling_servers.sh > /dev/null"
+
+
+- name: Creates a cron file | remove unused autoscaling servers
+  cron:
+    name: Remove unused autoscaling servers
+    weekday: "*"
+    minute: "0"
+    hour: "01"
+    user: root
+    job: "/var/lib/proxysql/delete_autoscaling_servers.sh > /dev/null"
+
